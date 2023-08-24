@@ -150,7 +150,7 @@ $ make migrate-down
 
 ### E2E Test
 
-You need to run the following commands to test.
+To run E2E test, you need to run the following commands or GitHub Actions Workflow.
 
 ```bash
 # e2e container up and migration up
