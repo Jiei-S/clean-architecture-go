@@ -1,0 +1,9 @@
+package: controller
+generate:
+  chi-server: true
+  embedded-spec: true
+compatibility:
+  apply-chi-middleware-first-to-last: true
+output: internal/adapter/controller/server.gen.go
+output-options:
+  skip-prune: true
