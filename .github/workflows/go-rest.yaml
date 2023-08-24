@@ -10,6 +10,7 @@ on:
   pull_request:
     types:
       - opened
+      - synchronize
     paths:
       - .github/workflows/go-rest.yaml
       - go-rest/**
