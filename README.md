@@ -1,6 +1,6 @@
 # Boilerplate Clean Architecture
 
-クリーンアーキテクチャのボイラープレート。
+（私の）クリーンアーキテクチャ。個人でインプットしたことをボイラープレートとして蓄積していく。
 
 - [Go REST](go-rest/README.md)
 
