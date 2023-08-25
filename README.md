@@ -1,6 +1,6 @@
 # Boilerplate Clean Architecture
 
-（私の）クリーンアーキテクチャ。個人でインプットしたことをボイラープレートとして蓄積していく。
+（自分なりの）Clean Architecture。個人でインプットしたことをボイラープレートとして蓄積していく。
 
 - [Go REST](go-rest/README.md)
 
@@ -29,23 +29,23 @@
 
 ## Adapter
 
-Web API やデータベース など外部サービスとのやり取りを担当する。外部フォーマット ⇔ Use Case Data Structure（または Entity）の変換やエラーフォーマットの変換も行う。  
-これにより、外部とのやり取り・仕様に関する詳細を Adapter レイヤーに隠蔽し、外部仕様変更に伴う上位レイヤーへの影響を最小限にする。  
+Web API やデータベースなど外部とのやり取りを担当する。  
+外部フォーマット ⇔ 上位レイヤーフォーマットの変換もこのレイヤーで行う。  
+
+外部とのやり取り・仕様に関する詳細を本レイヤーに隠蔽し、外部仕様変更に伴う上位レイヤーへの影響を最小限にする事が責務。  
 本アーキテクチャでは、Controller が Web API とのやり取りを担当し、Gateway がデータベースとのやり取りを担当する。
 
 ### Controller
 
 Web API とのやり取りを担当する。  
-リクエストデータを Use Case Data Structure に変換の上、Use Case レイヤーに連携する。レスポンス時は、Use Case レイヤーの出力データを Web API フォーマットに変換して返却する。  
-Use Case レイヤーとの連携は、Use Case Port を介して行う。
-
-Web API フォーマットと Use Case Data Structure の変換は、Controller Mapper を参照する。
+リクエストデータを Use Case で扱うフォーマットに変換の上、Use Case レイヤーに連携する。レスポンスでは、Use Case レイヤーの出力データを Web API フォーマットに変換して返却する。  
+Use Case レイヤーとの連携は、Use Case Port （インターフェース）を介して行う。
 
 ```go
 // user_handler.go
 
 func (h *UserHandler) AddUser(w http.ResponseWriter, r *http.Request) {
-	req, err := ToDTO(r.Body)
+	req, err := ToDTO(r.Body) // Web API フォーマットから Use Case フォーマットへの変換
 	if err != nil {
 		HttpError(w, err)
 		return
@@ -57,21 +57,21 @@ func (h *UserHandler) AddUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.HandleOK(w, FromDTO(result))
+	h.HandleOK(w, FromDTO(result)) // Use Case フォーマットから Web API フォーマットへの変換
 }
 ```
 
+Web API フォーマットと Use Case フォーマットの変換は、Controller Mapper を参照する。
+
 ### Controller Mapper
 
-Web API フォーマットと Use Case Data Structure の変換を行う。  
-リクエスト時は、リクエストボディを Use Case Data Structure に変換。レスポンス時は、Use Case Data Structure を API レスポンスに変換する。
-
-また、エラーが発生した際はアプリケーションエラーから HTTP エラーへの変換も行う。（詳細は [Error Strategy](#error-strategy) を参照）
+Web API フォーマットと Use Case フォーマットの変換を行う。  
+アプリケーションエラーから HTTP エラーへの変換も行う。（詳細は [Error Strategy](#error-strategy) を参照）
 
 ```go
 // user_handler_mapper.go
 
-// リクエストボディを Use Case Data Structure に変換
+// リクエストを Use Case フォーマットに変換
 func ToDTO(
 	body io.ReadCloser,
 ) (*usecase.User, *pkgErr.ApplicationError) {
@@ -87,7 +87,7 @@ func ToDTO(
 	}, nil
 }
 
-// Use Case Data Structure を API レスポンスに変換
+// Use Case フォーマットを API レスポンスに変換
 func FromDTO(
 	dto *usecase.User,
 ) *User {
@@ -103,9 +103,7 @@ func FromDTO(
 ### Gateway
 
 データベースとのやり取りを担当する。Repository Port（インターフェース）の実装。  
-Use Case レイヤーから連携された Entity を ORM モデルに変換の上、データベースとのやり取りを行う。反対に、Use Case レイヤーへの返却時は、ORM モデルを Entity に変換して返却する。
-
-ORM モデルと Entity の変換は、Gateway Mapper を参照する。
+Use Case レイヤーから連携された Entity を ORM モデルに変換し、データベースとのやり取りを行う。反対に、Use Case レイヤーへの返却時は、ORM モデルを Entity に変換して返却する。
 
 ```go
 // user_repository_impl.go
@@ -113,19 +111,20 @@ ORM モデルと Entity の変換は、Gateway Mapper を参照する。
 func (u *UserRepositoryImpl) Save(ctx context.Context, entity *entity.User) (*entity.User, *pkgErr.ApplicationError) {
 	tx := ctx.Value(TX_KEY).(*bun.Tx)
 
-	user := FromEntity(entity)
+	user := FromEntity(entity) // Entity を ORM モデルに変換
 	if _, err := tx.NewInsert().Model(user).Exec(ctx); err != nil {
 		return nil, RepositoryError(err)
 	}
-	return user.ToEntity(), nil
+	return user.ToEntity(), nil // ORM モデルを Entity に変換
 }
 ```
 
+ORM モデルと Entity の変換は、Gateway Mapper を参照する。
+
 ### Gateway Mapper
 
-ORM モデルと Entity の変換を行う。
-
-また、データベースエラーが発生した際はアプリケーションエラーへの変換も行う。（詳細は [Error Strategy](#error-strategy) を参照）
+ORM モデルと Entity の変換を行う。  
+データベースエラーからアプリケーションエラーへの変換も行う。（詳細は [Error Strategy](#error-strategy) を参照）
 
 ```go
 // user_repository_mapper.go
@@ -171,8 +170,8 @@ func FromEntity(
 
 ## Use Case
 
-ビジネスロジックを担当する。Use Case Port（インターフェース）の実装。  
-Use Case Data Structure から Entity への変換を行い、Repository に渡す。Repository との連携は、Repository Port を介して行う。
+ビジネスロジック（ソフトウェアで何が出来るかの表現）を担当する。Use Case Port（インターフェース）の実装。  
+Use Case フォーマットから Entity への変換を行い、Repository に渡す。Repository との連携は、Repository Port を介して行う。
 
 ```go
 // user_usecase_port.go
@@ -189,13 +188,15 @@ func (u *UserUsecaseImpl) AddUser(
 	ctx context.Context,
 	dto *User,
 ) (*User, *pkgErr.ApplicationError) {
-	entity, err := u.userRepository.Save(ctx, dto.ToEntity())
+	entity, err := u.userRepository.Save(ctx, dto.ToEntity()) // Use Case フォーマットを Entity に変換
 	if err != nil {
 		return nil, err
 	}
-	return FromEntity(entity), nil
+	return FromEntity(entity), nil // Entity を Use Case フォーマットに変換
 }
 ```
+
+Use Case フォーマットと Entity の変換は、Use Case Mapper を参照する。
 
 ### Use Case Mapper
 
@@ -212,7 +213,7 @@ type User struct {
 	Age       int32
 }
 
-// Use Case Data Structure を Entity に変換
+// Use Case フォーマットを Entity に変換
 func (u *User) ToEntity() *entity.User {
 	return &entity.User{
 		FirstName: u.FirstName,
@@ -221,7 +222,7 @@ func (u *User) ToEntity() *entity.User {
 	}
 }
 
-// Entity を Use Case Data Structure に変換
+// Entity を Use Case フォーマットに変換
 func FromEntity(
 	entity *entity.User,
 ) *User {
@@ -234,7 +235,7 @@ func FromEntity(
 }
 ```
 
-依存方向を下位レイヤー → 上位レイヤーに限定させるため、Repository Port は Use Case 側に定義。
+存方向を下位レイヤー → 上位レイヤーに限定する必要があるため、Repository Port は （Gateway 側ではなく）Use Case 側に定義。
 
 ```go
 // user_repository_port.go
@@ -246,7 +247,11 @@ type UserRepository interface {
 
 ## Domain
 
-ビジネスルールを表す。どのレイヤーにも依存しない最重要ビジネスデータ。
+ビジネスルールを表現し、どのレイヤーにも依存しないソフトウェアの中核となる部分。
+
+
+### Entity
+
 
 ```go
 // entity/user.go
@@ -264,8 +269,10 @@ type User struct {
 
 # Error Strategy
 
-アプリケーション独自のカスタムエラーを定義。エラーメッセージ、エラーレベル、エラーコードの 3 要素で構成され、エラーレベルとエラーコードによってエラーの重要度を表現し、ハンドリングする。  
-外部エラー（データベースエラーなど）をカスタムエラーに変換し、上位レイヤーへのエラー詳細の流入を防ぐ。また、API レスポンス時は、カスタムエラーをプロトコルエラー（HTTP エラーなど）に変換し、返却する。
+アプリケーション独自のカスタムエラーを定義。外部エラーをカスタムエラーにマッピングすることで、外部技術の詳細を隠蔽する方針。
+メッセージ、レベル、コードの 3 要素で構成され、レベルとコードによってエラーの重要度を表現し、よしなにハンドリングする。  
+
+本アーキテクチャでは、データベースエラーをカスタムエラーに変換し、上位レイヤーへの詳細の流入を防いだり、カスタムエラーを HTTP エラーに変換し、適切なレスポンスを返却する用途で利用する。
 
 ```go
 // Custom Error
@@ -342,7 +349,7 @@ func (u *UserRepositoryImpl) Save(ctx context.Context, entity *entity.User) (*en
 
 	user := FromEntity(entity)
 	if _, err := tx.NewInsert().Model(user).Exec(ctx); err != nil {
-		return nil, RepositoryError(err) // 変換
+		return nil, RepositoryError(err) // データベースエラーをカスタムエラーに変換
 	}
 	return user.ToEntity(), nil
 }
@@ -389,16 +396,20 @@ func HttpError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 func (h *UserHandler) AddUser(w http.ResponseWriter, r *http.Request) {
 	req, err := ToDTO(r.Body)
 	if err != nil {
-		HttpError(w, err) // 変換
+		HttpError(w, err) // カスタムエラーを HTTP エラーに変換
 		return
 	}
 
 	result, err := h.usecase.AddUser(r.Context(), req)
 	if err != nil {
-		HttpError(w, err) // 変換
+		HttpError(w, err) // カスタムエラーを HTTP エラーに変換
 		return
 	}
 
 	h.HandleOK(w, FromDTO(result))
 }
 ```
+
+# References
+- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [Clean Architecture 達人に学ぶソフトウェアの構造と設計](https://www.amazon.co.jp/Clean-Architecture-%E9%81%94%E4%BA%BA%E3%81%AB%E5%AD%A6%E3%81%B6%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E3%81%AE%E6%A7%8B%E9%80%A0%E3%81%A8%E8%A8%AD%E8%A8%88-Robert-C-Martin/dp/4048930656)
