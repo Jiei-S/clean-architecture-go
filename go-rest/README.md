@@ -64,6 +64,16 @@ For more information, see [Boilerplate Clean Architecture](../README.md).
         └── user_test.go
 ```
 
+## Libraries/Frameworks/Tools
+
+| Directory | Description |
+| --- | --- |
+| OpenAPI | API schema |
+| chi | HTTP router |
+| wire | Dependency injection |
+| bun | SQL query builder |
+| go-migrate | Migration |
+
 # Get Started
 
 Run the following command. Server will start on http://localhost:8080.
