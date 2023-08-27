@@ -1,4 +1,4 @@
-package gateway
+package bun
 
 import (
 	"database/sql"
@@ -9,10 +9,6 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 )
-
-type TxKey string
-
-const TX_KEY TxKey = "xxxxx"
 
 type DBEnv struct {
 	Name      string `env:"MYSQL_DATABASE"`

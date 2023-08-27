@@ -17,7 +17,7 @@ run:
 # migration
 .PHONY: migrate-create
 migrate-create:
-	docker compose run migrate create -ext sql -dir migrations -seq $(name)
+	docker compose run migrate create -ext sql -dir /internal/infrastructure/bun/migrations -seq $(name)
 
 .PHONY: migrate-up
 migrate-up:

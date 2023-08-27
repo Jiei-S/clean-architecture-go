@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/adapter/gateway"
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
 	usecase "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/usecase"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/uptrace/bun"
@@ -13,7 +14,7 @@ import (
 	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
 )
 
-var _ ServerInterface = (*UserHandler)(nil)
+var _ rest.ServerInterface = (*UserHandler)(nil)
 
 type UserHandler struct {
 	db      *bun.DB
@@ -47,8 +48,8 @@ func (h *UserHandler) FindUser(w http.ResponseWriter, r *http.Request, id string
 }
 
 func (h *UserHandler) Health(w http.ResponseWriter, r *http.Request) {
-	h.HandleOK(w, Health{
-		Status: Healthy,
+	h.HandleOK(w, rest.Health{
+		Status: rest.Healthy,
 	})
 }
 

@@ -10,8 +10,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/adapter/controller"
 	"github.com/caarlos0/env"
+
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
 
 	chi_middleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/go-chi/chi/v5"
@@ -28,7 +29,7 @@ func main() {
 		panic(err)
 	}
 
-	swagger, err := controller.GetSwagger()
+	swagger, err := rest.GetSwagger()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
 		os.Exit(1)
@@ -47,7 +48,7 @@ func main() {
 	r.Use(c.Recovery)
 	r.Use(c.SetDBMiddleware)
 
-	controller.HandlerFromMux(c, r)
+	rest.HandlerFromMux(c, r)
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGTERM, os.Interrupt, os.Kill)
 	defer stop()

@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: ./build/dev/Dockerfile.migrate
     volumes:
-      - ./migrations:/migrations
+      - ./internal/infrastructure/bun/migrations:/internal/infrastructure/bun/migrations
     depends_on:
       db.e2e:
         condition: service_healthy

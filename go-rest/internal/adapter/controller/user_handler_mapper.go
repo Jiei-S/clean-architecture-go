@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
 	usecase "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/usecase"
 	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
 )
@@ -26,8 +27,8 @@ func ToDTO(
 
 func FromDTO(
 	dto *usecase.User,
-) *User {
-	return &User{
+) *rest.User {
+	return &rest.User{
 		Id:        dto.ID,
 		FirstName: dto.FirstName,
 		LastName:  dto.LastName,
@@ -38,7 +39,7 @@ func FromDTO(
 func NotFoundError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 	setHeaderContentType(w)
 	w.WriteHeader(http.StatusNotFound)
-	json.NewEncoder(w).Encode(Error{
+	json.NewEncoder(w).Encode(rest.Error{
 		Code:    http.StatusNotFound,
 		Message: err.Error(),
 	})
@@ -47,7 +48,7 @@ func NotFoundError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 func BadRequestError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 	setHeaderContentType(w)
 	w.WriteHeader(http.StatusBadRequest)
-	json.NewEncoder(w).Encode(Error{
+	json.NewEncoder(w).Encode(rest.Error{
 		Code:    http.StatusBadRequest,
 		Message: err.Error(),
 	})
@@ -56,7 +57,7 @@ func BadRequestError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 func DuplicateError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 	setHeaderContentType(w)
 	w.WriteHeader(http.StatusConflict)
-	json.NewEncoder(w).Encode(Error{
+	json.NewEncoder(w).Encode(rest.Error{
 		Code:    http.StatusConflict,
 		Message: err.Error(),
 	})
@@ -65,7 +66,7 @@ func DuplicateError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 func InternalServerError(w http.ResponseWriter, err *pkgErr.ApplicationError) {
 	setHeaderContentType(w)
 	w.WriteHeader(http.StatusInternalServerError)
-	json.NewEncoder(w).Encode(Error{
+	json.NewEncoder(w).Encode(rest.Error{
 		Code:    http.StatusInternalServerError,
 		Message: err.Error(),
 	})

@@ -1,6 +1,6 @@
-package: controller
+package: openapi
 generate:
   models: true
-output: internal/adapter/controller/model.gen.go
+output: internal/infrastructure/openapi/model.gen.go
 output-options:
   skip-prune: true

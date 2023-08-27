@@ -21,12 +21,20 @@
 ├── domain
 │   └── entity
 │       └── user.go
+├── infrastructure
+│   └── db
+│       └── xxx.go
 └── usecase
     ├── user_repository_port.go
     ├── user_usecase_impl.go
     ├── user_usecase_mapper.go
     └── user_usecase_port.go
 ```
+
+## Infrastructure
+
+フレームワークやデータベースに依存する実装を担当する。  
+データベース接続やマイグレーション、REST API の仕様定義など。
 
 ## Adapter
 

@@ -37,25 +37,28 @@ For more information, see [Boilerplate Clean Architecture](../README.md).
 ├── internal
 │   ├── adapter
 │   │   ├── controller
-│   │   │   ├── model.gen.go
-│   │   │   ├── server.gen.go
 │   │   │   ├── user_handler.go
 │   │   │   └── user_handler_mapper.go
 │   │   └── gateway
-│   │       ├── db.go
 │   │       ├── user_repository_impl.go
 │   │       └── user_repository_mapper.go
 │   ├── domain
 │   │   └── entity
 │   │       └── user.go
+│   ├── infrastructure
+│   │   ├── bun
+│   │   │   ├── db.go
+│   │   │   └── migrations
+│   │   │       ├── 000001_create_user.down.sql
+│   │   │       └── 000001_create_user.up.sql
+│   │   └── openapi
+│   │       ├── model.gen.go
+│   │       └── server.gen.go
 │   └── usecase
 │       ├── user_repository_port.go
 │       ├── user_usecase_impl.go
 │       ├── user_usecase_mapper.go
 │       └── user_usecase_port.go
-├── migrations
-│   ├── 000001_create_user.down.sql
-│   └── 000001_create_user.up.sql
 ├── pkg
 │   └── error
 │       └── error.go
@@ -131,7 +134,7 @@ You need to update `api/openapi.yaml` and run the following command to update Op
 $ make openapi-gen
 ```
 
-Generated files are `internal/adapter/controller/model.gen.go` and `internal/adapter/controller/server.gen.go`.
+Generated files are `internal/infrastructure/openapi/model.gen.go` and `internal/infrastructure/openapi/server.gen.go`.
 
 ## Dependency Injection
 

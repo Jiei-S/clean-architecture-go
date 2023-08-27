@@ -7,8 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/adapter/controller"
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
+
 	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/adapter/gateway"
+	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/bun"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +18,7 @@ const BASE_API_URL = "http://localhost:8081/users"
 
 func TestAddUser(t *testing.T) {
 	defer func() {
-		db := gateway.NewDB()
+		db := bun.NewDB()
 		db.NewTruncateTable().Model(&gateway.User{}).Exec(context.Background())
 	}()
 
@@ -26,7 +28,7 @@ func TestAddUser(t *testing.T) {
 	type test struct {
 		name string
 		args
-		want controller.User
+		want rest.User
 		code int
 	}
 
@@ -36,7 +38,7 @@ func TestAddUser(t *testing.T) {
 			args: args{
 				body: `{"firstName":"test","lastName":"user","age":20}`,
 			},
-			want: controller.User{
+			want: rest.User{
 				FirstName: "test",
 				LastName:  "user",
 				Age:       20,
@@ -60,7 +62,7 @@ func TestAddUser(t *testing.T) {
 			}
 			defer r.Body.Close()
 
-			var act controller.User
+			var act rest.User
 			if err := json.NewDecoder(r.Body).Decode(&act); err != nil {
 				t.Fatal(err)
 			}
@@ -74,7 +76,7 @@ func TestAddUser(t *testing.T) {
 }
 
 func TestFindUser(t *testing.T) {
-	db := gateway.NewDB()
+	db := bun.NewDB()
 	user := &gateway.User{
 		FirstName: "test",
 		LastName:  "user",
@@ -91,7 +93,7 @@ func TestFindUser(t *testing.T) {
 	tests := []struct {
 		name string
 		args
-		want controller.User
+		want rest.User
 		code int
 	}{
 		{
@@ -99,7 +101,7 @@ func TestFindUser(t *testing.T) {
 			args: args{
 				id: user.ID,
 			},
-			want: controller.User{
+			want: rest.User{
 				Id:        user.ID,
 				FirstName: "test",
 				LastName:  "user",
@@ -123,7 +125,7 @@ func TestFindUser(t *testing.T) {
 			}
 			defer r.Body.Close()
 
-			var act controller.User
+			var act rest.User
 			if err := json.NewDecoder(r.Body).Decode(&act); err != nil {
 				t.Fatal(err)
 			}

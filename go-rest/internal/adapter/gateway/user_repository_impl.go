@@ -9,6 +9,10 @@ import (
 	"github.com/uptrace/bun"
 )
 
+type TxKey string
+
+const TX_KEY TxKey = "xxxxx"
+
 var _ usecase.UserRepository = (*UserRepositoryImpl)(nil)
 
 type UserRepositoryImpl struct {
