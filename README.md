@@ -5,6 +5,10 @@
 ボイラープレート一覧
   - [Go REST](go-rest/README.md)
 
+知見まとめ一覧
+
+- [Clean Architecture と Go で（自分なりの）ボイラープレートを作成してみました](https://qiita.com/Jiei-S/items/dbf06194f4858519bc61)
+
 # Architecture
 
 ![Architecture](architecture.drawio.png)
