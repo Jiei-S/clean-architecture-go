@@ -1,0 +1,43 @@
+version: "3"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./build/dev/Dockerfile.server
+    volumes:
+      - ./:/go/src/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - go-rest
+  db:
+    image: mysql:8.0
+    volumes:
+      - ./configs/mysql:/etc/mysql/conf.d
+      - mysql_data:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - go-rest
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
+  migrate:
+    build:
+      context: .
+      dockerfile: ./build/dev/Dockerfile.migrate
+    volumes:
+      - ./internal/infrastructure/bun/migrations:/internal/infrastructure/bun/migrations
+    env_file:
+      - .env
+    networks:
+      - go-rest
+volumes:
+  mysql_data: null
+networks:
+  go-rest:
+    external: true

@@ -1,9 +1,0 @@
-package: openapi
-generate:
-  chi-server: true
-  embedded-spec: true
-compatibility:
-  apply-chi-middleware-first-to-last: true
-output: internal/infrastructure/openapi/server.gen.go
-output-options:
-  skip-prune: true
