@@ -7,6 +7,16 @@ This is a boilerplate for Clean Architecture.
 - [Architecture](#Architecture)
 - [Development](#Development)
 
+## Technology Stack
+
+| Category              | Technology Stack                   |
+| --------------------- | ---------------------------------- |
+| Programming Languages | Go                                 |
+| Frameworks/Libraries  | OpenAPI, chi, wire, bun, go-migrate |
+| Environment setup     | Docker                             |
+
+
+
 # Architecture
 
 ![Architecture](architecture.drawio.png)
@@ -420,14 +430,6 @@ func (h *UserHandler) AddUser(w http.ResponseWriter, r *http.Request) {
 ```
 
 # Development
-
-## Technology Stack
-
-| Category              | Technology Stack                   |
-| --------------------- | ---------------------------------- |
-| Programming Languages | Go                                 |
-| Frameworks/Libraries  | OpenAPI, chi, wire, bun,go-migrate |
-| Environment setup     | Docker                             |
 
 ## Get Started
 
