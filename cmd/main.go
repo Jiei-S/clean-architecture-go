@@ -12,7 +12,7 @@ import (
 
 	"github.com/caarlos0/env"
 
-	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/internal/infrastructure/openapi"
 
 	chi_middleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/go-chi/chi/v5"

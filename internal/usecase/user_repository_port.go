@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/domain/entity"
-	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/domain/entity"
+	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/pkg/error"
 )
 
 type UserRepository interface {

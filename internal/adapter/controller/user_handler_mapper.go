@@ -5,9 +5,9 @@ import (
 	"io"
 	"net/http"
 
-	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
-	usecase "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/usecase"
-	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/internal/infrastructure/openapi"
+	usecase "github.com/Jiei-S/boilerplate-clean-architecture/internal/usecase"
+	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/pkg/error"
 )
 
 func ToDTO(

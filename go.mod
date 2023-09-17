@@ -1,4 +1,4 @@
-module github.com/Jiei-S/boilerplate-clean-architecture/go-rest
+module github.com/Jiei-S/boilerplate-clean-architecture
 
 go 1.21.0
 

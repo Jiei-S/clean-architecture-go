@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/adapter/gateway"
-	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
-	usecase "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/usecase"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/adapter/gateway"
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/internal/infrastructure/openapi"
+	usecase "github.com/Jiei-S/boilerplate-clean-architecture/internal/usecase"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/uptrace/bun"
 
-	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
+	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/pkg/error"
 )
 
 var _ rest.ServerInterface = (*UserHandler)(nil)

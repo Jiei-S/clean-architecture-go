@@ -9,13 +9,11 @@ This is a boilerplate for Clean Architecture.
 
 ## Technology Stack
 
-| Category              | Technology Stack                   |
-| --------------------- | ---------------------------------- |
-| Programming Languages | Go                                 |
+| Category              | Technology Stack                    |
+| --------------------- | ----------------------------------- |
+| Programming Languages | Go                                  |
 | Frameworks/Libraries  | OpenAPI, chi, wire, bun, go-migrate |
-| Environment setup     | Docker                             |
-
-
+| Environment setup     | Docker                              |
 
 # Architecture
 
@@ -436,7 +434,7 @@ func (h *UserHandler) AddUser(w http.ResponseWriter, r *http.Request) {
 Run the following command. Server will start on http://localhost:8080.
 
 ```bash
-$ make run
+$ make dev
 ```
 
 ## How To Use
