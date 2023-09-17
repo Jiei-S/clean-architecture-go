@@ -22,4 +22,6 @@
 go.work
 
 go-rest
+go-rest-e2e
+
 tmp/

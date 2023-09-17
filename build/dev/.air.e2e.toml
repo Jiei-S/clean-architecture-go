@@ -4,8 +4,8 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./go-rest"
-  cmd = "go build -buildvcs=false -o /go/src/app/go-rest github.com/Jiei-S/boilerplate-clean-architecture/cmd"
+  bin = "./go-rest-e2e"
+  cmd = "go build -buildvcs=false -o /go/src/app/go-rest-e2e github.com/Jiei-S/boilerplate-clean-architecture/cmd"
   delay = 0
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []
