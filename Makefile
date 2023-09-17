@@ -29,7 +29,7 @@ migrate-down:
 e2e-up:
 	docker compose -f docker-compose.e2e.yml down || true
 	docker network create go-rest || true
-	docker compose -f docker-compose.e2e.yml up --build -d
+	docker compose -f docker-compose.e2e.yml up --build
 
 .PHONY: e2e-run
 e2e-run:
