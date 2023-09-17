@@ -1,4 +1,4 @@
-# Boilerplate Clean Architecture
+# Boilerplate Clean Architecture for Go
 
 （自分なりの）Clean Architecture。個人でインプットしたことをボイラープレートとして蓄積していく。
 
