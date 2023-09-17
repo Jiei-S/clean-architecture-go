@@ -1,6 +1,7 @@
 version: "3"
 services:
   server.e2e:
+    container_name: server.e2e
     build:
       context: .
       dockerfile: ./build/dev/Dockerfile.e2e
@@ -16,6 +17,7 @@ services:
     networks:
       - go-rest
   db.e2e:
+    container_name: db.e2e
     image: mysql:8.0
     volumes:
       - ./configs/mysql:/etc/mysql/conf.d
@@ -27,6 +29,7 @@ services:
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
   migrate.e2e:
+    container_name: migrate.e2e
     build:
       context: .
       dockerfile: ./build/dev/Dockerfile.migrate
