@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/domain/entity"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/domain/entity"
 )
 
 type User struct {

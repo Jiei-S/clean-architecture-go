@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./go-rest"
-  cmd = "go build -o /go/src/app/go-rest github.com/Jiei-S/boilerplate-clean-architecture/go-rest/cmd"
+  cmd = "go build -o /go/src/app/go-rest github.com/Jiei-S/boilerplate-clean-architecture/cmd"
   delay = 0
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []
@@ -13,7 +13,7 @@ tmp_dir = "tmp"
   exclude_unchanged = false
   follow_symlink = false
   full_bin = ""
-  include_dir = ["internal", "pkg", "cmd", "test"]
+  include_dir = ["internal", "pkg", "cmd"]
   include_ext = ["go", "tpl", "tmpl", "html"]
   include_file = []
   kill_delay = "0s"

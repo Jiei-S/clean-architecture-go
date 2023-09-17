@@ -3,9 +3,9 @@ package gateway
 import (
 	"context"
 
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/domain/entity"
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/usecase"
-	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/domain/entity"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/usecase"
+	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/pkg/error"
 	"github.com/uptrace/bun"
 )
 

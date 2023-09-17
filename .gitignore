@@ -21,5 +21,7 @@
 # Go workspace file
 go.work
 
-go-rest/go-rest
-go-rest/tmp/
+go-rest
+go-rest-e2e
+
+tmp/

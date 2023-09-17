@@ -3,7 +3,7 @@ package usecase
 import (
 	"context"
 
-	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/pkg/error"
+	pkgErr "github.com/Jiei-S/boilerplate-clean-architecture/pkg/error"
 )
 
 var _ UserUsecase = (*UserUsecaseImpl)(nil)

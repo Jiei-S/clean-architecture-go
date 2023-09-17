@@ -1,46 +1,50 @@
 version: "3"
 services:
-  server:
-    container_name: server
+  server.e2e:
+    container_name: server.e2e
     build:
       context: .
-      dockerfile: ./build/dev/Dockerfile.server
+      dockerfile: ./build/dev/Dockerfile.e2e
     volumes:
       - ./:/go/src/app
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
-      db:
+      db.e2e:
         condition: service_healthy
     env_file:
-      - .env
+      - .env.e2e
     networks:
       - go-rest
-  db:
-    container_name: db
+  db.e2e:
+    container_name: db.e2e
     image: mysql:8.0
     volumes:
       - ./configs/mysql:/etc/mysql/conf.d
-      - mysql_data:/var/lib/mysql
+      - mysql_data_e2e:/var/lib/mysql
     env_file:
-      - .env
+      - .env.e2e
     networks:
       - go-rest
     healthcheck:
-        test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
-  migrate:
-    container_name: migrate
+      test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
+  migrate.e2e:
+    container_name: migrate.e2e
     build:
       context: .
       dockerfile: ./build/dev/Dockerfile.migrate
     volumes:
       - ./internal/infrastructure/bun/migrations:/internal/infrastructure/bun/migrations
+    depends_on:
+      db.e2e:
+        condition: service_healthy
     env_file:
-      - .env
+      - .env.e2e
     networks:
       - go-rest
+    command: ["up"]
 volumes:
-  mysql_data: null
+  mysql_data_e2e: null
 networks:
   go-rest:
     external: true

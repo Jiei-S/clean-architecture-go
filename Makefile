@@ -1,4 +1,3 @@
-# server
 .PHONY: openapi-gen
 openapi-gen:
 	oapi-codegen -config api/chi-server.config.yaml api/openapi.yaml
@@ -8,13 +7,12 @@ openapi-gen:
 wire-gen:
 	wire cmd/wire.go
 
-.PHONY: run
-run:
+.PHONY: dev
+dev:
 	docker compose down || true
 	docker network create go-rest || true
 	docker compose up server db --build
 
-# migration
 .PHONY: migrate-create
 migrate-create:
 	docker compose run migrate create -ext sql -dir /internal/infrastructure/bun/migrations -seq $(name)
@@ -27,7 +25,6 @@ migrate-up:
 migrate-down:
 	docker compose run migrate down
 
-# e2e
 .PHONY: e2e-up
 e2e-up:
 	docker compose -f docker-compose.e2e.yml down || true

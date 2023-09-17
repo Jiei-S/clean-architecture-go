@@ -4,23 +4,14 @@ on:
   push:
     branches:
       - main
-    paths:
-      - .github/workflows/go-rest.yaml
-      - go-rest/**
   pull_request:
     types:
       - opened
       - synchronize
-    paths:
-      - .github/workflows/go-rest.yaml
-      - go-rest/**
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: go-rest
 
     steps:
       - name: checkout

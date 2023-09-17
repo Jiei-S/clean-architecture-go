@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	rest "github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/openapi"
+	rest "github.com/Jiei-S/boilerplate-clean-architecture/internal/infrastructure/openapi"
 
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/adapter/gateway"
-	"github.com/Jiei-S/boilerplate-clean-architecture/go-rest/internal/infrastructure/bun"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/adapter/gateway"
+	"github.com/Jiei-S/boilerplate-clean-architecture/internal/infrastructure/bun"
 	"github.com/stretchr/testify/assert"
 )
 
