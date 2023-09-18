@@ -1,4 +1,4 @@
-# Boilerplate Clean Architecture for Go
+# Clean Architecture for Go
 
 This is a boilerplate for Clean Architecture.
 
