@@ -2,39 +2,21 @@
 
 This is a boilerplate for Clean Architecture.
 
+# Architecture
+
+![Architecture](architecture.drawio.png)
+
+For more information, please refer to the following article.
+[Qiita](https://qiita.com/Jiei-S/items/dbf06194f4858519bc61).
+
+
 ## Technology Stack
 
 | Category              | Technology Stack                    |
 | --------------------- | ----------------------------------- |
-| Programming Languages | Go                                  |
 | Frameworks/Libraries  | OpenAPI, chi, wire, bun, go-migrate |
 | Environment setup     | Docker                              |
 
-# Architecture
-
-```
-.
-├── adapter
-│   ├── controller
-│   │   ├── user_handler.go
-│   │   └── user_handler_mapper.go
-│   └── gateway
-│       ├── user_repository_impl.go
-│       └── user_repository_mapper.go
-├── domain
-│   └── entity
-│       └── user.go
-├── infrastructure
-│   └── db
-│       └── xxx.go
-└── usecase
-    ├── user_repository_port.go
-    ├── user_usecase_impl.go
-    ├── user_usecase_mapper.go
-    └── user_usecase_port.go
-```
-
-For more details, see [Qiita](https://qiita.com/Jiei-S/items/dbf06194f4858519bc61).
 
 # Development
 
